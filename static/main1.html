@@ -1,192 +1,543 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>McLaren 765LT</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APEX MOTORS | Hypercar Collection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #D4AF37;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --light: #f8f8f8;
+            --accent: #ff3b00;
+            --silver: #C0C0C0;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #f4f4f4;
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+            cursor: crosshair;
         }
-        h1 {
-            color: #ff8000;
-            text-align: center;
+
+        /* Animated grain texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.03) 2px, rgba(255,255,255,.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,.03) 2px, rgba(255,255,255,.03) 4px);
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.3;
+            animation: grain 8s steps(10) infinite;
         }
-        .section {
-            background: white;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+        @keyframes grain {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -10%); }
+            30% { transform: translate(3%, -15%); }
+            50% { transform: translate(12%, 9%); }
+            70% { transform: translate(9%, 4%); }
+            90% { transform: translate(-1%, 7%); }
         }
-        .section h2 {
-            color: #333;
-            border-bottom: 2px solid #ff8000;
-            padding-bottom: 10px;
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0) 100%);
+            backdrop-filter: blur(10px);
+            animation: slideDown 1s ease-out;
         }
-        .car-info {
+
+        @keyframes slideDown {
+            from { transform: translateY(-100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 0.3rem;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--silver) 50%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.15rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.4s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .btn-login {
+            padding: 0.8rem 2.5rem;
+            background: linear-gradient(135deg, var(--gold), var(--accent));
+            border: none;
+            color: var(--darker);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.15rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-login::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-login:hover::before {
+            left: 100%;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(212, 175, 55, 0.6);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
             display: flex;
             align-items: center;
-            gap: 20px;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
-        .car-info img {
-            max-width: 400px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(255, 59, 0, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, var(--darker) 0%, #1a1a1a 100%);
+            animation: pulse 8s ease-in-out infinite;
         }
-        .car-details {
-            flex: 1;
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
-        .car-details h3 {
-            margin-top: 0;
-            color: #ff8000;
+
+        /* Geometric lines */
+        .hero-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
         }
-        .specs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
+
+        .line {
+            position: absolute;
+            background: var(--gold);
+            animation: lineGrow 2s ease-out forwards;
         }
-        .spec-item {
-            background: #f9f9f9;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
+
+        .line-1 {
+            width: 2px;
+            height: 0;
+            top: 0;
+            left: 20%;
+            animation-delay: 0.2s;
         }
-        .spec-item strong {
-            display: block;
-            color: #666;
+
+        .line-2 {
+            width: 0;
+            height: 2px;
+            top: 30%;
+            right: 0;
+            animation-delay: 0.5s;
         }
-        .features-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+
+        .line-3 {
+            width: 2px;
+            height: 0;
+            bottom: 0;
+            right: 15%;
+            animation-delay: 0.8s;
         }
-        .feature-card {
-            background: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+        @keyframes lineGrow {
+            to {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            max-width: 1200px;
+            padding: 0 2rem;
+        }
+
+        .hero-label {
+            font-size: 0.9rem;
+            letter-spacing: 0.5rem;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out 0.3s backwards;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 7rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--light) 0%, var(--gold) 50%, var(--light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.05rem;
+            animation: fadeInUp 1s ease-out 0.5s backwards;
+            text-transform: uppercase;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: rgba(248, 248, 248, 0.7);
+            font-weight: 300;
+            letter-spacing: 0.3rem;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out 0.7s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-buttons {
             display: flex;
-            align-items: flex-start;
-            gap: 10px;
+            gap: 2rem;
+            justify-content: center;
+            animation: fadeInUp 1s ease-out 0.9s backwards;
         }
-        .feature-card .icon {
-            font-size: 24px;
+
+        .btn-primary, .btn-secondary {
+            padding: 1.2rem 3rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.2rem;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-block;
         }
-        .feature-card h4 {
-            margin-top: 0;
-            color: #ff8000;
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--darker);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
         }
-        .feature-card p {
-            margin: 5px 0 0;
-            color: #555;
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: var(--accent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
         }
-        #loading {
+
+        .btn-primary:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.6);
+        }
+
+        .btn-primary span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--gold);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gold);
+            color: var(--darker);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            animation: fadeInUp 1s ease-out 1.2s backwards;
+        }
+
+        .scroll-text {
+            font-size: 0.8rem;
+            letter-spacing: 0.3rem;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+        .scroll-line {
+            width: 2px;
+            height: 60px;
+            background: linear-gradient(180deg, var(--gold), transparent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: var(--accent);
+            animation: scrollDown 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollDown {
+            0% { transform: translateY(-30px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(60px); opacity: 0; }
+        }
+
+        /* Featured Stats */
+        .stats {
+            position: absolute;
+            bottom: 5rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 5rem;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out 1s backwards;
+        }
+
+        .stat-item {
             text-align: center;
-            font-style: italic;
-            color: #666;
         }
-        .error {
-            color: red;
-            text-align: center;
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            letter-spacing: 0.2rem;
+            color: rgba(248, 248, 248, 0.6);
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stats {
+                gap: 2rem;
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>🏎️ McLaren 765LT</h1>
-    
-    <div id="loading">Loading data...</div>
-    
-    <div id="car-section" class="section" style="display: none;">
-        <h2>Car Information</h2>
-        <div id="car-info" class="car-info"></div>
-    </div>
-    
-    <div id="specs-section" class="section" style="display: none;">
-        <h2>Technical Specifications</h2>
-        <div id="specs-grid" class="specs-grid"></div>
-    </div>
-    
-    <div id="features-section" class="section" style="display: none;">
-        <h2>Key Features</h2>
-        <div id="features-list" class="features-list"></div>
-    </div>
-    
-    <div id="error" class="error" style="display: none;"></div>
+    <nav>
+        <div class="logo">APEX MOTORS</div>
+        <ul class="nav-links">
+            <li><a href="/listings">Collection</a></li>
+            <li><a href="#about">Experience</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="/login" style="text-decoration: none;">
+            <button class="btn-login">Member Access</button>
+        </a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-lines">
+            <div class="line line-1"></div>
+            <div class="line line-2"></div>
+            <div class="line line-3"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-label">EXCLUSIVE COLLECTION</div>
+            <h1 class="hero-title">HYPERCAR<br>EXCELLENCE</h1>
+            <p class="hero-subtitle">Engineering Masterpieces. Uncompromising Performance.</p>
+            <div class="cta-buttons">
+                <a href="/listings" class="btn-primary">
+                    <span>Explore Collection</span>
+                </a>
+                <a href="/login" class="btn-secondary">
+                    <span>Dealer Login</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Hypercars</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">$500M+</div>
+                <div class="stat-label">Total Value</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">15</div>
+                <div class="stat-label">Brands</div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="scroll-text">Scroll</div>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
 
     <script>
-        async function fetchData(endpoint) {
-            try {
-                const response = await fetch(endpoint);
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch ${endpoint}`);
-                }
-                return await response.json();
-            } catch (err) {
-                document.getElementById('error').textContent = err.message;
-                document.getElementById('error').style.display = 'block';
-                return null;
+        // Cursor trail effect
+        document.addEventListener('mousemove', (e) => {
+            const trail = document.createElement('div');
+            trail.style.position = 'fixed';
+            trail.style.width = '4px';
+            trail.style.height = '4px';
+            trail.style.borderRadius = '50%';
+            trail.style.background = 'rgba(212, 175, 55, 0.5)';
+            trail.style.left = e.clientX + 'px';
+            trail.style.top = e.clientY + 'px';
+            trail.style.pointerEvents = 'none';
+            trail.style.zIndex = '9999';
+            trail.style.animation = 'fadeOut 1s ease-out forwards';
+            document.body.appendChild(trail);
+            
+            setTimeout(() => trail.remove(), 1000);
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                to { opacity: 0; transform: scale(0); }
             }
-        }
-
-        async function loadCarInfo() {
-            const car = await fetchData('/api/car');
-            if (car) {
-                const carInfo = document.getElementById('car-info');
-                carInfo.innerHTML = `
-                    <img src="${car.image_url}" alt="${car.name}">
-                    <div class="car-details">
-                        <h3>${car.name} (${car.model}, ${car.year})</h3>
-                        <p>${car.desc}</p>
-                        <p><strong>Price:</strong> ${car.price}</p>
-                    </div>
-                `;
-                document.getElementById('car-section').style.display = 'block';
-            }
-        }
-
-        async function loadSpecs() {
-            const specs = await fetchData('/api/info');
-            if (specs) {
-                const specsGrid = document.getElementById('specs-grid');
-                specsGrid.innerHTML = `
-                    <div class="spec-item"><strong>Engine:</strong> ${specs.engine}</div>
-                    <div class="spec-item"><strong>Horsepower:</strong> ${specs.horsepower} hp</div>
-                    <div class="spec-item"><strong>Torque:</strong> ${specs.torque}</div>
-                    <div class="spec-item"><strong>Top Speed:</strong> ${specs.topspeed}</div>
-                    <div class="spec-item"><strong>Acceleration:</strong> ${specs.accelaration}</div>
-                    <div class="spec-item"><strong>Weight:</strong> ${specs.weight}</div>
-                    <div class="spec-item"><strong>Transmission:</strong> ${specs.transmission}</div>
-                `;
-                document.getElementById('specs-section').style.display = 'block';
-            }
-        }
-
-        async function loadFeatures() {
-            const features = await fetchData('/api/features');
-            if (features) {
-                const featuresList = document.getElementById('features-list');
-                featuresList.innerHTML = features.map(feature => `
-                    <div class="feature-card">
-                        <span class="icon">${feature.icon}</span>
-                        <div>
-                            <h4>${feature.title}</h4>
-                            <p>${feature.desc}</p>
-                        </div>
-                    </div>
-                `).join('');
-                document.getElementById('features-section').style.display = 'block';
-            }
-        }
-
-        async function loadAllData() {
-            await Promise.all([loadCarInfo(), loadSpecs(), loadFeatures()]);
-            document.getElementById('loading').style.display = 'none';
-        }
-
-        window.onload = loadAllData;
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>

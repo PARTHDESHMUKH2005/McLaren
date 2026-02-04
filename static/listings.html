@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APEX MOTORS | Hypercar Collection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #D4AF37;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --light: #f8f8f8;
+            --accent: #ff3b00;
+            --silver: #C0C0C0;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 0.3rem;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--silver) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .btn-nav {
+            padding: 0.6rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-nav:hover {
+            background: var(--gold);
+            color: var(--darker);
+        }
+
+        /* Header */
+        .page-header {
+            padding: 8rem 5% 3rem;
+            text-align: center;
+            background: 
+                radial-gradient(ellipse at 50% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 60%),
+                var(--darker);
+            position: relative;
+        }
+
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: 0.1rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--light) 0%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: rgba(248, 248, 248, 0.6);
+            letter-spacing: 0.3rem;
+            text-transform: uppercase;
+        }
+
+        /* Filters */
+        .filters {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 2rem;
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: rgba(248, 248, 248, 0.7);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--gold);
+            color: var(--darker);
+            border-color: var(--gold);
+        }
+
+        /* Collection Grid */
+        .collection {
+            padding: 3rem 5% 5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 3rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .car-card {
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            animation: slideUp 0.6s ease-out backwards;
+        }
+
+        .car-card:nth-child(1) { animation-delay: 0.1s; }
+        .car-card:nth-child(2) { animation-delay: 0.2s; }
+        .car-card:nth-child(3) { animation-delay: 0.3s; }
+        .car-card:nth-child(4) { animation-delay: 0.4s; }
+        .car-card:nth-child(5) { animation-delay: 0.5s; }
+        .car-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .car-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .car-card:hover::before {
+            opacity: 1;
+        }
+
+        .car-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
+        }
+
+        .car-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .car-card:hover .car-image {
+            transform: scale(1.1);
+        }
+
+        .car-info {
+            padding: 2rem;
+        }
+
+        .car-brand {
+            font-size: 0.8rem;
+            letter-spacing: 0.2rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .car-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05rem;
+        }
+
+        .car-specs {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .spec {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .spec-label {
+            font-size: 0.75rem;
+            color: rgba(248, 248, 248, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+        }
+
+        .spec-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--light);
+        }
+
+        .car-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: rgba(248, 248, 248, 0.7);
+            margin-bottom: 1.5rem;
+        }
+
+        .car-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .car-price {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .btn-details {
+            padding: 0.8rem 1.8rem;
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-details:hover {
+            background: var(--gold);
+            color: var(--darker);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 5rem;
+            font-size: 1.2rem;
+            color: var(--gold);
+            letter-spacing: 0.2rem;
+        }
+
+        .no-cars {
+            text-align: center;
+            padding: 5rem;
+            font-size: 1.5rem;
+            color: rgba(248, 248, 248, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .filters {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">APEX MOTORS</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/listings">Collection</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+        </ul>
+        <a href="/login" class="btn-nav">Member Access</a>
+    </nav>
+
+    <header class="page-header">
+        <h1 class="page-title">HYPERCAR COLLECTION</h1>
+        <p class="page-subtitle">Exclusive Performance Masterpieces</p>
+    </header>
+
+    <section class="filters">
+        <button class="filter-btn active" data-filter="all">All Vehicles</button>
+        <button class="filter-btn" data-filter="supercar">Supercars</button>
+        <button class="filter-btn" data-filter="hypercar">Hypercars</button>
+        <button class="filter-btn" data-filter="limited">Limited Edition</button>
+    </section>
+
+    <section class="collection">
+        <div class="grid" id="listingsGrid">
+            <div class="loading">LOADING COLLECTION...</div>
+        </div>
+    </section>
+
+    <script>
+        const API_BASE = 'http://localhost:5001';
+        const grid = document.getElementById('listingsGrid');
+
+        // Real hypercar data with actual pricing
+        const realCars = [
+            {
+                id: 1,
+                make: "Bugatti",
+                model: "Chiron Super Sport",
+                year: 2023,
+                price: "$3,900,000",
+                description: "Quad-turbocharged W16 engine producing 1,577 HP. Limited to 261 mph.",
+                image_url: "https://images.unsplash.com/photo-1566023888424-c0c1c8e0a4d0?w=800&auto=format&fit=crop",
+                category: "hypercar",
+                specs: { power: "1,577 HP", topSpeed: "261 mph" }
+            },
+            {
+                id: 2,
+                make: "Koenigsegg",
+                model: "Jesko Absolut",
+                year: 2024,
+                price: "$3,000,000",
+                description: "5.0L twin-turbo V8, 1,600 HP. Designed for maximum speed record attempts.",
+                image_url: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&auto=format&fit=crop",
+                category: "hypercar",
+                specs: { power: "1,600 HP", topSpeed: "330+ mph" }
+            },
+            {
+                id: 3,
+                make: "Pagani",
+                model: "Huayra R",
+                year: 2023,
+                price: "$3,100,000",
+                description: "Naturally aspirated 6.0L V12 by AMG, 850 HP. Track-only masterpiece.",
+                image_url: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=800&auto=format&fit=crop",
+                category: "limited",
+                specs: { power: "850 HP", topSpeed: "217 mph" }
+            },
+            {
+                id: 4,
+                make: "McLaren",
+                model: "Speedtail",
+                year: 2023,
+                price: "$2,250,000",
+                description: "Hybrid powertrain, 1,055 HP. Hyper-GT with 250 mph top speed.",
+                image_url: "https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=800&auto=format&fit=crop",
+                category: "hypercar",
+                specs: { power: "1,055 HP", topSpeed: "250 mph" }
+            },
+            {
+                id: 5,
+                make: "Ferrari",
+                model: "SF90 Stradale",
+                year: 2024,
+                price: "$625,000",
+                description: "Plug-in hybrid with 986 HP. First Ferrari with AWD.",
+                image_url: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&auto=format&fit=crop",
+                category: "supercar",
+                specs: { power: "986 HP", topSpeed: "211 mph" }
+            },
+            {
+                id: 6,
+                make: "Lamborghini",
+                model: "Revuelto",
+                year: 2024,
+                price: "$608,000",
+                description: "First plug-in hybrid V12 Lamborghini. 1,001 HP combined output.",
+                image_url: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&auto=format&fit=crop",
+                category: "supercar",
+                specs: { power: "1,001 HP", topSpeed: "217 mph" }
+            },
+            {
+                id: 7,
+                make: "Aston Martin",
+                model: "Valkyrie",
+                year: 2023,
+                price: "$3,200,000",
+                description: "F1-derived 6.5L V12, 1,160 HP. Adrian Newey designed hypercar.",
+                image_url: "https://images.unsplash.com/photo-1614200187524-dc4b892acf16?w=800&auto=format&fit=crop",
+                category: "hypercar",
+                specs: { power: "1,160 HP", topSpeed: "250 mph" }
+            },
+            {
+                id: 8,
+                make: "Porsche",
+                model: "918 Spyder",
+                year: 2015,
+                price: "$1,700,000",
+                description: "Hybrid hypercar, 887 HP. Limited to 918 units worldwide.",
+                image_url: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&auto=format&fit=crop",
+                category: "limited",
+                specs: { power: "887 HP", topSpeed: "214 mph" }
+            }
+        ];
+
+        async function loadListings() {
+            try {
+                // Simulate API delay
+                await new Promise(resolve => setTimeout(resolve, 800));
+                
+                // Try to fetch from API, fallback to real data
+                let cars = realCars;
+                try {
+                    const response = await fetch(`${API_BASE}/api/cars`);
+                    if (response.ok) {
+                        const apiCars = await response.json();
+                        if (apiCars && apiCars.length > 0) {
+                            cars = apiCars;
+                        }
+                    }
+                } catch (error) {
+                    console.log('Using default collection');
+                }
+
+                displayCars(cars);
+            } catch (error) {
+                grid.innerHTML = '<div class="no-cars">Failed to load collection</div>';
+            }
+        }
+
+        function displayCars(cars) {
+            if (!cars || cars.length === 0) {
+                grid.innerHTML = '<div class="no-cars">No vehicles available</div>';
+                return;
+            }
+
+            grid.innerHTML = cars.map(car => {
+                const specs = car.specs || { power: `${car.year}`, topSpeed: 'N/A' };
+                return `
+                    <div class="car-card" data-category="${car.category || 'supercar'}">
+                        <img src="${car.image_url || car.ImageURL}" alt="${car.make} ${car.model}" class="car-image" onerror="this.src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&auto=format&fit=crop'">
+                        <div class="car-info">
+                            <div class="car-brand">${car.make}</div>
+                            <h2 class="car-name">${car.model}</h2>
+                            <div class="car-specs">
+                                <div class="spec">
+                                    <div class="spec-label">Power</div>
+                                    <div class="spec-value">${specs.power}</div>
+                                </div>
+                                <div class="spec">
+                                    <div class="spec-label">Top Speed</div>
+                                    <div class="spec-value">${specs.topSpeed}</div>
+                                </div>
+                                <div class="spec">
+                                    <div class="spec-label">Year</div>
+                                    <div class="spec-value">${car.year}</div>
+                                </div>
+                            </div>
+                            <p class="car-description">${car.description || car.Description}</p>
+                            <div class="car-footer">
+                                <div class="car-price">${car.price || car.Price}</div>
+                                <button class="btn-details" onclick="alert('Contact dealer for more information')">Inquire</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+                const cards = document.querySelectorAll('.car-card');
+
+                cards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                        card.style.animation = 'slideUp 0.6s ease-out';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Load on page load
+        loadListings();
+    </script>
+</body>
+</html>
